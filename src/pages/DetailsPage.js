@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetchDetails from "../Hooks/hooks/useFetchDetails";
 import useFetch from "../Hooks/hooks/useFetch";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import moment from "moment/moment";
 import Divider from "../components/Divider";
 import HorizentalScrollCard from "../components/HorizentalScrollCard";
+import VideoPlay from "../components/VideoPlay";
 
 const DetailsPage = () => {
   const params = useParams();
@@ -20,9 +21,16 @@ const DetailsPage = () => {
   const { data: recomendedData } = useFetch(
     `/${params?.explore}/${params?.id}/recommendations`
   );
+  const [playVideo, setPlayVideo] = useState(false);
+  const [playVideoId, setPlayVideoId] = useState("");
 
   // console.log("data", data);
   // console.log("cast data", castData);
+
+  const handlePlayVideo = (data) => {
+    setPlayVideo(true);
+    setPlayVideoId(data);
+  };
 
   const duration = (data?.runtime / 60)?.toFixed(1)?.split(".");
 
@@ -51,6 +59,12 @@ const DetailsPage = () => {
             alt=""
             className="h-60 w-60 object-cover rounded"
           />
+          <button
+            onClick={() => handlePlayVideo(data)}
+            className="mt-3 w-full py-2 px-4 text-center bg-white text-black rounded font-bold text-lg hover:bg-gradient-to-l from-red-500 to-orange-600 hover: scale-105 transition-all"
+          >
+            Play Now
+          </button>
         </div>
 
         <div className="">
@@ -134,6 +148,14 @@ const DetailsPage = () => {
           media_type={params?.explore}
         />
       </div>
+
+      {playVideo && (
+        <VideoPlay
+          data={playVideoId}
+          close={() => setPlayVideo(false)}
+          media_type={params?.explore}
+        />
+      )}
     </div>
   );
 };

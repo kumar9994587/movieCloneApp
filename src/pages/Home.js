@@ -13,7 +13,9 @@ const Home = () => {
   const { data: todayArrivingTvShowData } = useFetch("/tv/airing_today");
   const { data: weekendTvShowData } = useFetch("/tv/on_the_air");
 
-  // console.log(nowPlayingData);
+  // console.log("Trending: ", trendingMovieData);
+  // console.log("Now Playing: ", nowPlayingData);
+
   return (
     <div>
       <BannerHome />
